@@ -1,6 +1,7 @@
 ﻿using ProcessWatcher.Process;
 using System.Threading;
 using System;
+using ProccessWatcher.Server;
 
 namespace ProcessWatcher
 {
@@ -24,11 +25,6 @@ namespace ProcessWatcher
                 pc.CheckStatus(true);
 
             timer.Change(5000, Timeout.Infinite);
-        }
-
-        private void metroTrackBar1_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
-        {
-
         }
     }
 }

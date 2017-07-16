@@ -1,4 +1,5 @@
-﻿using ProcessWatcher.Process;
+﻿using ProccessWatcher.Server;
+using ProcessWatcher.Process;
 using System;
 using System.Windows.Forms;
 
@@ -30,6 +31,5 @@ namespace ProcessWatcher
         {
             Console.WriteLine($"Server '{pc.name}': {pc.path} was added.");
         }
-
     }
 }

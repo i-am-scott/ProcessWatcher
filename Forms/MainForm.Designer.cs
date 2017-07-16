@@ -31,6 +31,8 @@
             this.metroTabControl1 = new MetroFramework.Controls.MetroTabControl();
             this.tab_servers = new MetroFramework.Controls.MetroTabPage();
             this.tab_newprocess = new MetroFramework.Controls.MetroTabPage();
+            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.metroComboBox1 = new MetroFramework.Controls.MetroComboBox();
             this.lbl_name = new MetroFramework.Controls.MetroLabel();
             this.input_name = new MetroFramework.Controls.MetroTextBox();
             this.lblTarget = new MetroFramework.Controls.MetroLabel();
@@ -40,8 +42,6 @@
             this.input_proccess = new MetroFramework.Controls.MetroTextBox();
             this.SettingsTab = new MetroFramework.Controls.MetroTabPage();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
-            this.metroComboBox1 = new MetroFramework.Controls.MetroComboBox();
-            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.metroTabControl1.SuspendLayout();
             this.tab_newprocess.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
@@ -99,6 +99,36 @@
             this.tab_newprocess.VerticalScrollbarBarColor = true;
             this.tab_newprocess.VerticalScrollbarHighlightOnWheel = false;
             this.tab_newprocess.VerticalScrollbarSize = 10;
+            // 
+            // metroLabel1
+            // 
+            this.metroLabel1.AutoSize = true;
+            this.metroLabel1.Location = new System.Drawing.Point(-4, 177);
+            this.metroLabel1.Name = "metroLabel1";
+            this.metroLabel1.Size = new System.Drawing.Size(51, 19);
+            this.metroLabel1.TabIndex = 11;
+            this.metroLabel1.Text = "Priority";
+            this.metroLabel1.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // metroComboBox1
+            // 
+            this.metroComboBox1.FormattingEnabled = true;
+            this.metroComboBox1.IntegralHeight = false;
+            this.metroComboBox1.ItemHeight = 23;
+            this.metroComboBox1.Items.AddRange(new object[] {
+            "Low",
+            "Below Normal",
+            "Normal",
+            "Above Normal",
+            "High",
+            "Realtime"});
+            this.metroComboBox1.Location = new System.Drawing.Point(0, 199);
+            this.metroComboBox1.Name = "metroComboBox1";
+            this.metroComboBox1.Size = new System.Drawing.Size(233, 29);
+            this.metroComboBox1.Style = MetroFramework.MetroColorStyle.Lime;
+            this.metroComboBox1.TabIndex = 10;
+            this.metroComboBox1.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.metroComboBox1.UseSelectable = true;
             // 
             // lbl_name
             // 
@@ -224,7 +254,7 @@
             this.input_proccess.MaxLength = 32767;
             this.input_proccess.Name = "input_proccess";
             this.input_proccess.PasswordChar = '\0';
-            this.input_proccess.PromptText = "C:\\Windows\\Calc.exe";
+            this.input_proccess.WaterMark = "C:\\Windows\\Calc.exe";
             this.input_proccess.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.input_proccess.SelectedText = "";
             this.input_proccess.SelectionLength = 0;
@@ -261,36 +291,6 @@
             this.fileSystemWatcher1.EnableRaisingEvents = true;
             this.fileSystemWatcher1.SynchronizingObject = this;
             // 
-            // metroComboBox1
-            // 
-            this.metroComboBox1.FormattingEnabled = true;
-            this.metroComboBox1.IntegralHeight = false;
-            this.metroComboBox1.ItemHeight = 23;
-            this.metroComboBox1.Items.AddRange(new object[] {
-            "Low",
-            "Below Normal",
-            "Normal",
-            "Above Normal",
-            "High",
-            "Realtime"});
-            this.metroComboBox1.Location = new System.Drawing.Point(0, 199);
-            this.metroComboBox1.Name = "metroComboBox1";
-            this.metroComboBox1.Size = new System.Drawing.Size(233, 29);
-            this.metroComboBox1.Style = MetroFramework.MetroColorStyle.Lime;
-            this.metroComboBox1.TabIndex = 10;
-            this.metroComboBox1.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.metroComboBox1.UseSelectable = true;
-            // 
-            // metroLabel1
-            // 
-            this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Location = new System.Drawing.Point(-4, 177);
-            this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(51, 19);
-            this.metroLabel1.TabIndex = 11;
-            this.metroLabel1.Text = "Priority";
-            this.metroLabel1.Theme = MetroFramework.MetroThemeStyle.Dark;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -299,6 +299,7 @@
             this.ClientSize = new System.Drawing.Size(558, 569);
             this.Controls.Add(this.metroTabControl1);
             this.Name = "MainForm";
+            this.Resizable = false;
             this.Style = MetroFramework.MetroColorStyle.Lime;
             this.Text = "Watcher";
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
