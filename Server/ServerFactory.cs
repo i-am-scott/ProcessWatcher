@@ -47,7 +47,7 @@ namespace ProcessWatcher.Process
             try
             {
                 var data = JsonConvert.SerializeObject(servers);
-                File.WriteAllText("settings.json", data);
+                File.WriteAllText("servers.json", data);
             }
             catch (Exception e)
             {

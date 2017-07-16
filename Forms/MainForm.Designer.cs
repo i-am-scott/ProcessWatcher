@@ -254,7 +254,7 @@
             this.input_process.MaxLength = 32767;
             this.input_process.Name = "input_process";
             this.input_process.PasswordChar = '\0';
-            this.input_process.PromptText = "C:\\Windows\\Calc.exe";
+            this.input_process.WaterMark = "C:\\Windows\\Calc.exe";
             this.input_process.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.input_process.SelectedText = "";
             this.input_process.SelectionLength = 0;

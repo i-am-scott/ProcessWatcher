@@ -19,6 +19,7 @@ namespace ProcessWatcher
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
 
             StartMonitor();
+            APIServer.Nancy.Start();
 
             Application.Run(new MainForm());
         }

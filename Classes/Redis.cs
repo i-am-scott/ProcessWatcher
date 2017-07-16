@@ -1,7 +1,0 @@
-﻿namespace ProcessWatcher
-{
-    class Redis
-    {
-    }
-
-}
