@@ -1,6 +1,7 @@
 ﻿namespace ProcessWatcher.Classes
 {
-    class Webservers
+    class Webserver
     {
     }
+
 }

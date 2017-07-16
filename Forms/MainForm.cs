@@ -1,6 +1,7 @@
 ﻿using ProcessWatcher.Process;
 using System.Threading;
 using System;
+using ProcessWatcher.Classes;
 
 namespace ProcessWatcher
 {
@@ -20,7 +21,7 @@ namespace ProcessWatcher
 
         private void CheckServerStatus(object state)
         {
-            foreach(ProcessContainer pc in ServerFactory.servers)
+            foreach (ProcessContainer pc in ServerFactory.servers)
                 pc.PollStatus(true);
 
             timer.Change(1000, Timeout.Infinite);

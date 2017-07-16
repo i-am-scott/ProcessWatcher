@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using ProcessWatcher.Classes;
 using ProcessWatcher.Process;
 using System;
 using System.Windows.Forms;
@@ -38,7 +39,7 @@ namespace ProcessWatcher
 
         private static void ServerFactory_OnServerAdded(ProcessContainer pc)
         {
-            Console.WriteLine($"Server '{pc.name}': {pc.path} was added.");
+            util.Log($"Server '{pc.name}': {pc.path} was added.");
         }
 
         private static void RunOnStartUp(bool run)

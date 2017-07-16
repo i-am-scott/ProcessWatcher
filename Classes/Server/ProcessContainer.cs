@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ProcessWatcher.Classes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -78,12 +79,12 @@ namespace ProcessWatcher.Process
 
         private void CurrentProc_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
-            Console.WriteLine(e.Data);
+            util.Log(e.Data);
         }
 
         private void CurrentProc_Exited(object sender, EventArgs e)
         {
-            Console.WriteLine("Closed!");
+            util.Log("Closed!");
         }
 
         public System.Diagnostics.Process GetProcess()
@@ -130,16 +131,15 @@ namespace ProcessWatcher.Process
                 staging = false;
                 startcounter = 0;
 
-                Console.WriteLine(e);
+                util.Log(e.ToString());
             }
             return unresponsive;
         }
 
         public void PollStatus(bool restart = false)
         {
-            Console.WriteLine("Polling...");
-
-            if(!restart)
+            if (!watching) return;
+            if (!restart)
             {
                 if(IsUnresponsive())
                 {
@@ -149,17 +149,12 @@ namespace ProcessWatcher.Process
                 return;
             }
 
-            if (watching && IsUnresponsive())
+            if (IsUnresponsive())
             {
-                Console.WriteLine("No responding!");
-
                 if(startdelay > 0)
                 {
-                    Console.WriteLine("Waiting for {0} seconds!", startdelay - startcounter);
-
                     if(staging)
                     {
-                        Console.WriteLine("Saged Process, keep counting!");
                         startcounter++;
                         if (startcounter >= startdelay)
                         {
@@ -170,13 +165,16 @@ namespace ProcessWatcher.Process
                     }
                     else
                     {
-                        Console.WriteLine("Starting staging...");
+                        util.Log($"{name} is not responding!");
+                        util.Log($"{name} is being staged for {startdelay} seconds.");
                         staging = true;
                         startcounter++;
                     }
                 }
                 else
                 {
+                    util.Log($"{name} is not responding!");
+                    util.Log($"{name} is launching!");
                     CreateProcess();
                 }
             }
@@ -190,7 +188,6 @@ namespace ProcessWatcher.Process
             MemoryUsage = GetProcess().WorkingSet64;
             CPUUsage = new PerformanceCounter("Processor", "% Processor Time", GetProcess().ProcessName).NextValue();
         }
-
     }
 
 }
