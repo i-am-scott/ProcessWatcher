@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProccessWatcher.Properties {
+namespace ProcessWatcher.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

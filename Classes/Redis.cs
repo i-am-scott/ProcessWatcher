@@ -1,4 +1,4 @@
-﻿namespace ProccessWatcher
+﻿namespace ProcessWatcher
 {
     class Redis
     {

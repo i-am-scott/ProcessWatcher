@@ -1,12 +1,11 @@
 ﻿using Newtonsoft.Json;
-using ProcessWatcher.Process;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace ProccessWatcher.Server
+namespace ProcessWatcher.Process
 {
     public static class ServerFactory
     {
@@ -60,8 +59,15 @@ namespace ProccessWatcher.Server
         {
             try
             {
-                var data = File.ReadAllText("settings.json");
-                if (string.IsNullOrEmpty(data)) return;
+                if (!File.Exists("servers.json"))
+                {
+                    File.Create("servers.json").Close();
+                    return;
+                }
+
+                var data = File.ReadAllText("servers.json");
+                if (string.IsNullOrEmpty(data))
+                    return;
 
                 servers = JsonConvert.DeserializeObject<List<ProcessContainer>>(data);
 

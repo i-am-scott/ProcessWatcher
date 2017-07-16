@@ -39,7 +39,7 @@
             this.input_target = new MetroFramework.Controls.MetroTextBox();
             this.lblStartUp = new MetroFramework.Controls.MetroLabel();
             this.btn_startup = new MetroFramework.Controls.MetroButton();
-            this.input_proccess = new MetroFramework.Controls.MetroTextBox();
+            this.input_process = new MetroFramework.Controls.MetroTextBox();
             this.SettingsTab = new MetroFramework.Controls.MetroTabPage();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.metroTabControl1.SuspendLayout();
@@ -86,7 +86,7 @@
             this.tab_newprocess.Controls.Add(this.input_target);
             this.tab_newprocess.Controls.Add(this.lblStartUp);
             this.tab_newprocess.Controls.Add(this.btn_startup);
-            this.tab_newprocess.Controls.Add(this.input_proccess);
+            this.tab_newprocess.Controls.Add(this.input_process);
             this.tab_newprocess.HorizontalScrollbarBarColor = true;
             this.tab_newprocess.HorizontalScrollbarHighlightOnWheel = false;
             this.tab_newprocess.HorizontalScrollbarSize = 10;
@@ -235,39 +235,39 @@
             this.btn_startup.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.btn_startup.UseSelectable = true;
             // 
-            // input_proccess
+            // input_process
             // 
             // 
             // 
             // 
-            this.input_proccess.CustomButton.Image = null;
-            this.input_proccess.CustomButton.Location = new System.Drawing.Point(397, 1);
-            this.input_proccess.CustomButton.Name = "";
-            this.input_proccess.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.input_proccess.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.input_proccess.CustomButton.TabIndex = 1;
-            this.input_proccess.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.input_proccess.CustomButton.UseSelectable = true;
-            this.input_proccess.CustomButton.Visible = false;
-            this.input_proccess.Lines = new string[0];
-            this.input_proccess.Location = new System.Drawing.Point(0, 91);
-            this.input_proccess.MaxLength = 32767;
-            this.input_proccess.Name = "input_proccess";
-            this.input_proccess.PasswordChar = '\0';
-            this.input_proccess.WaterMark = "C:\\Windows\\Calc.exe";
-            this.input_proccess.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.input_proccess.SelectedText = "";
-            this.input_proccess.SelectionLength = 0;
-            this.input_proccess.SelectionStart = 0;
-            this.input_proccess.ShortcutsEnabled = true;
-            this.input_proccess.Size = new System.Drawing.Size(419, 23);
-            this.input_proccess.Style = MetroFramework.MetroColorStyle.Lime;
-            this.input_proccess.TabIndex = 2;
-            this.input_proccess.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.input_proccess.UseSelectable = true;
-            this.input_proccess.WaterMark = "C:\\Windows\\Calc.exe";
-            this.input_proccess.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.input_proccess.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.input_process.CustomButton.Image = null;
+            this.input_process.CustomButton.Location = new System.Drawing.Point(397, 1);
+            this.input_process.CustomButton.Name = "";
+            this.input_process.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.input_process.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.input_process.CustomButton.TabIndex = 1;
+            this.input_process.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.input_process.CustomButton.UseSelectable = true;
+            this.input_process.CustomButton.Visible = false;
+            this.input_process.Lines = new string[0];
+            this.input_process.Location = new System.Drawing.Point(0, 91);
+            this.input_process.MaxLength = 32767;
+            this.input_process.Name = "input_process";
+            this.input_process.PasswordChar = '\0';
+            this.input_process.PromptText = "C:\\Windows\\Calc.exe";
+            this.input_process.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.input_process.SelectedText = "";
+            this.input_process.SelectionLength = 0;
+            this.input_process.SelectionStart = 0;
+            this.input_process.ShortcutsEnabled = true;
+            this.input_process.Size = new System.Drawing.Size(419, 23);
+            this.input_process.Style = MetroFramework.MetroColorStyle.Lime;
+            this.input_process.TabIndex = 2;
+            this.input_process.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.input_process.UseSelectable = true;
+            this.input_process.WaterMark = "C:\\Windows\\Calc.exe";
+            this.input_process.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.input_process.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // SettingsTab
             // 
@@ -318,7 +318,7 @@
         private MetroFramework.Controls.MetroTabPage tab_newprocess;
         private MetroFramework.Controls.MetroTabPage SettingsTab;
         private MetroFramework.Controls.MetroTabPage tab_servers;
-        private MetroFramework.Controls.MetroTextBox input_proccess;
+        private MetroFramework.Controls.MetroTextBox input_process;
         private MetroFramework.Controls.MetroLabel lblStartUp;
         private MetroFramework.Controls.MetroButton btn_startup;
         private MetroFramework.Controls.MetroLabel lblTarget;
