@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ProcessWatcher.Process;
+using System;
 using System.Windows.Forms;
 
-namespace ProccessWatcher
+namespace ProcessWatcher
 {
     static class Program
     {
@@ -16,7 +14,22 @@ namespace ProccessWatcher
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            StartMonitor();
+
+            Application.Run(new MainForm());
         }
+
+        static void StartMonitor()
+        {
+            ServerFactory.OnServerAdded += ServerFactory_OnServerAdded;
+            ServerFactory.Load();
+        }
+
+        private static void ServerFactory_OnServerAdded(ProcessContainer pc)
+        {
+            Console.WriteLine($"Server '{pc.name}': {pc.path} was added.");
+        }
+
     }
 }
