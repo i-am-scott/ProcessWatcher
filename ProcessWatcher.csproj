@@ -82,7 +82,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Server\Webserver.cs" />
+    <Compile Include="Classes\Notify\Discord.cs" />
+    <Compile Include="Classes\Notify\Email.cs" />
+    <Compile Include="Classes\Notify\INotify.cs" />
+    <Compile Include="Classes\Notify\Sms.cs" />
+    <Compile Include="Classes\Web\Webserver.cs" />
     <Compile Include="Classes\util.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>

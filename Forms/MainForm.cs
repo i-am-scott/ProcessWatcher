@@ -1,7 +1,6 @@
 ﻿using ProcessWatcher.Process;
 using System.Threading;
 using System;
-using ProcessWatcher.Classes;
 
 namespace ProcessWatcher
 {
