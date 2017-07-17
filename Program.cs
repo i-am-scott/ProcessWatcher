@@ -16,7 +16,6 @@ namespace ProcessWatcher
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
 
             StartMonitor();
             APIServer.Nancy.Start();
@@ -24,7 +23,7 @@ namespace ProcessWatcher
             Application.Run(new MainForm());
         }
 
-        private static void OnProcessExit(object sender, EventArgs e)
+        public static void OnProcessExit()
         {
             foreach (ProcessContainer pw in ServerFactory.servers)
                 pw.CloseProcess();

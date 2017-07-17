@@ -9,33 +9,42 @@ namespace ProcessWatcher.Process
 {
     public class ProcessContainer
     {
-        public int id;
-
         public string name;
         public string path;
+
+        [JsonIgnore]
         public string target;
+
+        [JsonIgnore]
         public bool autostart = false;
 
         [JsonIgnore]
         public bool staging = false;
+
         [JsonIgnore]
         public int startcounter = 0;
         public long startdelay = 0;
 
-        public Dictionary<string,dynamic> options;
-        public int ProcessId;
-
         [JsonIgnore]
         public bool watching = false;
+
+        public int processid{
+            get
+            {
+                return CurrentProc?.Id ?? 0;
+            }
+        }
 
         protected System.Diagnostics.Process CurrentProc;
         protected int LastHearbeat;
 
-        [JsonIgnore]
+        // [JsonIgnore]
         public long MemoryUsage;
 
-        [JsonIgnore]
+        // [JsonIgnore]
         public float CPUUsage;
+
+        public Dictionary<string, dynamic> options;
 
         public ProcessContainer(string name, string path, Dictionary<string,dynamic> options = null)
         {
@@ -73,7 +82,6 @@ namespace ProcessWatcher.Process
             CurrentProc.ErrorDataReceived += CurrentProc_ErrorDataReceived;
 
             watching  = true;
-            ProcessId = CurrentProc.SessionId;
             return CurrentProc;
         }
 
@@ -96,14 +104,12 @@ namespace ProcessWatcher.Process
         {
             watching = false;
 
-
             if (CurrentProc != null)
             {
                 CurrentProc.Dispose();
                 CurrentProc.Close();
             }
 
-            ProcessId = 0;
             CurrentProc = null;
         }
 
@@ -138,7 +144,11 @@ namespace ProcessWatcher.Process
 
         public void PollStatus(bool restart = false)
         {
-            if (!watching) return;
+            if (!watching)
+                return;
+
+            PollProcessInfo();
+
             if (!restart)
             {
                 if(IsUnresponsive())
@@ -185,9 +195,18 @@ namespace ProcessWatcher.Process
             if (GetProcess() == null)
                 return;
 
-            MemoryUsage = GetProcess().WorkingSet64;
-            CPUUsage = new PerformanceCounter("Processor", "% Processor Time", GetProcess().ProcessName).NextValue();
+            try
+            {
+                PerformanceCounter memcounter = new PerformanceCounter("Process", "Working Set", GetProcess().ProcessName);
+                PerformanceCounter cpucounter = new PerformanceCounter("Process", "% Processor Time", GetProcess().ProcessName);
+
+                MemoryUsage = GetProcess().PrivateMemorySize64;
+                CPUUsage = cpucounter.NextValue();
+            }
+            catch (Exception e)
+            {
+                util.Log(e.Message);
+            }
         }
     }
-
 }

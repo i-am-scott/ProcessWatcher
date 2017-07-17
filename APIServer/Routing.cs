@@ -1,30 +1,60 @@
 ﻿using Nancy;
+using System.Threading.Tasks;
+using System.Threading;
+using Nancy.Authentication.Stateless;
+using Nancy.Security;
+using ProcessWatcher.Process;
+using Newtonsoft.Json;
 
 namespace ProcessWatcher.APIServer
 {
     public class Routing : NancyModule
     {
-        // TODO: Don't forget some kind of authentication! (steam somehow?)
         public Routing()
         {
-            // Display available routes
+            this.RequiresAuthentication();
+            StatelessAuthentication.Enable(this, new StatelessAuthenticationConfiguration(ValidateKey));
+
+            // Views
             Get["/"] = MainPage;
+            Get["/servers", true] = GetServers;
+            Get["server/{serverid:int}", true] = GetServer;
+            Get["/stats", true] = GetStats;
 
-            // Controls
-            Get["/servers"] = GetServers;
-            Get["/server"] = GetServer;
-            Get["/stats"] = GetStats;
-
-            Post["/server"] = ManageServer;
-            Post["/settings"] = ManageSettings;
+            // Stop, Start, Restart and change some settings
+            Post["/server/{id}", true] =  ManageServer;
+            Post["/settings", true] = ManageSettings;
         }
 
-        public string MainPage(dynamic parameters) => "Not Implemented";
-        public string GetServers(dynamic parameters) => "Not Implemented";
-        public string GetServer(dynamic parameters) => "Not Implemented";
-        public string GetStats(dynamic parameters) => "Not Implemented";
-        public string ManageServer(dynamic parameters) => "Not Implemented";
-        public string ManageSettings(dynamic parameters) => "Not Implemented";
+        private IUserIdentity ValidateKey(NancyContext ctx)
+        {
+            if (!ctx.Request.Query.api.HasValue)
+                return null;
+
+            /*
+             *Generated at run time from a json 
+             *file when the settings page is complete.
+            */
+            return new RegisteredUser()
+            {
+                username = "Temp User",
+                steamid = "STEAM_0:1:26675200",
+                ip = "127.0.0.1"
+            };
+        }
+
+        private string MainPage(dynamic parameters)
+            => JsonConvert.SerializeObject(ServerFactory.servers);
+        private async Task<dynamic> GetServers(dynamic parameters, CancellationToken ct)
+            => JsonConvert.SerializeObject(ServerFactory.servers);
+        private async Task<dynamic> GetServer(dynamic parameters, CancellationToken ct)
+            => "Not Implemented";
+        private async Task<dynamic> GetStats(dynamic parameters, CancellationToken ct)
+            => "Not Implemented";
+        private async Task<dynamic> ManageServer(dynamic parameters, CancellationToken ct)
+            => "Not Implemented";
+        private async Task<dynamic> ManageSettings(dynamic parameters, CancellationToken ct)
+            => "Not Implemented";
     }
 
 }

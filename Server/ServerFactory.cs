@@ -40,7 +40,7 @@ namespace ProcessWatcher.Process
 
         public static ProcessContainer Get(int id)
             => servers.Count == 0 ? null :
-                servers.Where(p => p.ProcessId == id).First();
+                servers.Where(p => p.processid == id).First();
 
         public static void Save()
         {
