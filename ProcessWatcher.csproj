@@ -56,15 +56,15 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
-      <HintPath>packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
+    <Reference Include="MetroFramework, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>packages\MetroFramework.RunTime.1.2.0.3\lib\net40-Client\MetroFramework.dll</HintPath>
     </Reference>
-    <Reference Include="MetroFramework.Design, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
-      <HintPath>packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Design.dll</HintPath>
+    <Reference Include="MetroFramework.Design, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>packages\MetroFramework.Design.1.2.0.3\lib\net40\MetroFramework.Design.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
-      <HintPath>packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
+    <Reference Include="MetroFramework.Fonts, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>packages\MetroFramework.Fonts.1.2.0.3\lib\net40\MetroFramework.Fonts.dll</HintPath>
     </Reference>
     <Reference Include="Nancy, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Nancy.1.4.3\lib\net40\Nancy.dll</HintPath>
@@ -93,10 +93,8 @@
   <ItemGroup>
     <Compile Include="APIServer\Nancy.cs" />
     <Compile Include="APIServer\Routing.cs" />
-    <Compile Include="Notify\Discord.cs" />
     <Compile Include="Notify\Email.cs" />
     <Compile Include="Notify\INotify.cs" />
-    <Compile Include="Notify\Sms.cs" />
     <Compile Include="settings.cs" />
     <Compile Include="util.cs" />
     <Compile Include="Forms\MainForm.cs">
@@ -136,6 +134,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ProcessExtensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MetroFramework.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
