@@ -8,11 +8,13 @@ namespace ProcessWatcher
 {
     static class Program
     {
+        public const int Apple = 2;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -51,6 +53,5 @@ namespace ProcessWatcher
             else
                 rk.DeleteValue(AppDomain.CurrentDomain.FriendlyName, false);
         }
-
     }
 }

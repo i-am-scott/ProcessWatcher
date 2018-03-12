@@ -93,8 +93,6 @@
   <ItemGroup>
     <Compile Include="APIServer\Nancy.cs" />
     <Compile Include="APIServer\Routing.cs" />
-    <Compile Include="Notify\Email.cs" />
-    <Compile Include="Notify\INotify.cs" />
     <Compile Include="settings.cs" />
     <Compile Include="util.cs" />
     <Compile Include="Forms\MainForm.cs">
@@ -134,9 +132,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ProcessExtensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="MetroFramework.txt" />
   </ItemGroup>

@@ -147,8 +147,6 @@ namespace ProcessWatcher.Process
             if (!watching)
                 return;
 
-            PollProcessInfo();
-
             if (!restart)
             {
                 if(IsUnresponsive())
@@ -188,11 +186,15 @@ namespace ProcessWatcher.Process
                     CreateProcess();
                 }
             }
+            else
+            {
+                PollProcessInfo();
+            }
         }
 
         public void PollProcessInfo()
         {
-            if (GetProcess() == null)
+            if (GetProcess() == null || GetProcess().HasExited)
                 return;
 
             try
