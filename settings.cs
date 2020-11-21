@@ -1,7 +1,6 @@
-﻿
-namespace ProcessWatcher
+﻿namespace ProcessWatcher
 {
-    static class settings
+    static class Settings
     {
         public static bool EnabledWebserver = false;
         public static bool EnabledMail = false;

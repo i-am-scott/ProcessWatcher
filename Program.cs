@@ -8,8 +8,6 @@ namespace ProcessWatcher
 {
     static class Program
     {
-        public const int Apple = 2;
-
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -41,7 +39,8 @@ namespace ProcessWatcher
 
         private static void ServerFactory_OnServerAdded(ProcessContainer pc)
         {
-            util.Log($"Server '{pc.name}': {pc.path} was added.");
+            util.Log($"Server '{pc.ProcName}': {pc.Path} was added.");
+            ServerFactory.Save();
         }
 
         private static void RunOnStartUp(bool run)

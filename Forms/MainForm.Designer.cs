@@ -34,13 +34,11 @@
             this.metroTabControl1 = new MetroFramework.Controls.MetroTabControl();
             this.tab_servers = new MetroFramework.Controls.MetroTabPage();
             this.datagrid_view = new System.Windows.Forms.DataGridView();
-            this.col_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_uptime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cpu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_memusage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_start = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.col_edit = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tab_newprocess = new MetroFramework.Controls.MetroTabPage();
+            this.folder_browser = new MetroFramework.Controls.MetroButton();
+            this.button_delete = new MetroFramework.Controls.MetroButton();
+            this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
+            this.input_startfrom = new MetroFramework.Controls.MetroTextBox();
             this.button_update = new MetroFramework.Controls.MetroButton();
             this.label_web_desc = new MetroFramework.Controls.MetroLabel();
             this.label_autostart_desc = new MetroFramework.Controls.MetroLabel();
@@ -49,19 +47,23 @@
             this.toggle_web = new MetroFramework.Controls.MetroToggle();
             this.label_web = new MetroFramework.Controls.MetroLabel();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
-            this.metroComboBox1 = new MetroFramework.Controls.MetroComboBox();
+            this.dropdown_priority = new MetroFramework.Controls.MetroComboBox();
             this.lbl_name = new MetroFramework.Controls.MetroLabel();
             this.input_name = new MetroFramework.Controls.MetroTextBox();
             this.lblTarget = new MetroFramework.Controls.MetroLabel();
             this.input_target = new MetroFramework.Controls.MetroTextBox();
             this.lblStartUp = new MetroFramework.Controls.MetroLabel();
-            this.btn_startup = new MetroFramework.Controls.MetroButton();
+            this.file_browser = new MetroFramework.Controls.MetroButton();
             this.input_process = new MetroFramework.Controls.MetroTextBox();
             this.SettingsTab = new MetroFramework.Controls.MetroTabPage();
             this.style_manager = new MetroFramework.Components.MetroStyleManager(this.components);
-            this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
-            this.input_startfrom = new MetroFramework.Controls.MetroTextBox();
-            this.button_delete = new MetroFramework.Controls.MetroButton();
+            this.FileDialogue = new System.Windows.Forms.OpenFileDialog();
+            this.ProcName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UpTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RAM = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Start = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Edit = new System.Windows.Forms.DataGridViewButtonColumn();
             this.metroTabControl1.SuspendLayout();
             this.tab_servers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datagrid_view)).BeginInit();
@@ -76,7 +78,7 @@
             this.metroTabControl1.Controls.Add(this.SettingsTab);
             this.metroTabControl1.Location = new System.Drawing.Point(23, 63);
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 1;
+            this.metroTabControl1.SelectedIndex = 0;
             this.metroTabControl1.Size = new System.Drawing.Size(580, 483);
             this.metroTabControl1.TabIndex = 0;
             // 
@@ -96,9 +98,11 @@
             // 
             this.datagrid_view.AllowUserToAddRows = false;
             this.datagrid_view.AllowUserToDeleteRows = false;
+            this.datagrid_view.AllowUserToResizeRows = false;
             this.datagrid_view.BackgroundColor = System.Drawing.SystemColors.Control;
             this.datagrid_view.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.datagrid_view.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.datagrid_view.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
             this.datagrid_view.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ControlLightLight;
@@ -111,12 +115,12 @@
             this.datagrid_view.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.datagrid_view.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.datagrid_view.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.col_name,
-            this.col_uptime,
-            this.col_cpu,
-            this.col_memusage,
-            this.col_start,
-            this.col_edit});
+            this.ProcName,
+            this.UpTime,
+            this.CPU,
+            this.RAM,
+            this.Start,
+            this.Edit});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -133,56 +137,19 @@
             this.datagrid_view.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.datagrid_view.RowHeadersVisible = false;
             this.datagrid_view.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.datagrid_view.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.datagrid_view.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.datagrid_view.ShowCellErrors = false;
+            this.datagrid_view.ShowCellToolTips = false;
+            this.datagrid_view.ShowEditingIcon = false;
+            this.datagrid_view.ShowRowErrors = false;
             this.datagrid_view.Size = new System.Drawing.Size(572, 444);
             this.datagrid_view.TabIndex = 2;
             this.datagrid_view.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_view_CellContentClick);
             // 
-            // col_name
-            // 
-            this.col_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_name.HeaderText = "Name";
-            this.col_name.Name = "col_name";
-            this.col_name.ReadOnly = true;
-            // 
-            // col_uptime
-            // 
-            this.col_uptime.HeaderText = "Uptime";
-            this.col_uptime.Name = "col_uptime";
-            this.col_uptime.ReadOnly = true;
-            this.col_uptime.Width = 65;
-            // 
-            // col_cpu
-            // 
-            this.col_cpu.HeaderText = "CPU";
-            this.col_cpu.Name = "col_cpu";
-            this.col_cpu.ReadOnly = true;
-            this.col_cpu.Width = 65;
-            // 
-            // col_memusage
-            // 
-            this.col_memusage.HeaderText = "RAM";
-            this.col_memusage.Name = "col_memusage";
-            this.col_memusage.ReadOnly = true;
-            this.col_memusage.Width = 65;
-            // 
-            // col_start
-            // 
-            this.col_start.HeaderText = "Start";
-            this.col_start.Name = "col_start";
-            this.col_start.ReadOnly = true;
-            this.col_start.UseColumnTextForButtonValue = true;
-            this.col_start.Width = 65;
-            // 
-            // col_edit
-            // 
-            this.col_edit.HeaderText = "Edit";
-            this.col_edit.Name = "col_edit";
-            this.col_edit.ReadOnly = true;
-            this.col_edit.UseColumnTextForButtonValue = true;
-            this.col_edit.Width = 65;
-            // 
             // tab_newprocess
             // 
+            this.tab_newprocess.Controls.Add(this.folder_browser);
             this.tab_newprocess.Controls.Add(this.button_delete);
             this.tab_newprocess.Controls.Add(this.metroLabel2);
             this.tab_newprocess.Controls.Add(this.input_startfrom);
@@ -194,13 +161,13 @@
             this.tab_newprocess.Controls.Add(this.toggle_web);
             this.tab_newprocess.Controls.Add(this.label_web);
             this.tab_newprocess.Controls.Add(this.metroLabel1);
-            this.tab_newprocess.Controls.Add(this.metroComboBox1);
+            this.tab_newprocess.Controls.Add(this.dropdown_priority);
             this.tab_newprocess.Controls.Add(this.lbl_name);
             this.tab_newprocess.Controls.Add(this.input_name);
             this.tab_newprocess.Controls.Add(this.lblTarget);
             this.tab_newprocess.Controls.Add(this.input_target);
             this.tab_newprocess.Controls.Add(this.lblStartUp);
-            this.tab_newprocess.Controls.Add(this.btn_startup);
+            this.tab_newprocess.Controls.Add(this.file_browser);
             this.tab_newprocess.Controls.Add(this.input_process);
             this.tab_newprocess.HorizontalScrollbarBarColor = true;
             this.tab_newprocess.Location = new System.Drawing.Point(4, 35);
@@ -210,6 +177,41 @@
             this.tab_newprocess.Text = "Add Process";
             this.tab_newprocess.VerticalScrollbarBarColor = true;
             // 
+            // folder_browser
+            // 
+            this.folder_browser.Location = new System.Drawing.Point(492, 132);
+            this.folder_browser.Name = "folder_browser";
+            this.folder_browser.Size = new System.Drawing.Size(80, 23);
+            this.folder_browser.TabIndex = 22;
+            this.folder_browser.Text = "Browse";
+            this.folder_browser.Click += new System.EventHandler(this.folder_browser_Click);
+            // 
+            // button_delete
+            // 
+            this.button_delete.Location = new System.Drawing.Point(353, 418);
+            this.button_delete.Name = "button_delete";
+            this.button_delete.Size = new System.Drawing.Size(105, 23);
+            this.button_delete.Style = MetroFramework.MetroColorStyle.Red;
+            this.button_delete.TabIndex = 21;
+            this.button_delete.Text = "Delete";
+            this.button_delete.Click += new System.EventHandler(this.button_delete_Click);
+            // 
+            // metroLabel2
+            // 
+            this.metroLabel2.AutoSize = true;
+            this.metroLabel2.Location = new System.Drawing.Point(-1, 110);
+            this.metroLabel2.Name = "metroLabel2";
+            this.metroLabel2.Size = new System.Drawing.Size(51, 19);
+            this.metroLabel2.TabIndex = 20;
+            this.metroLabel2.Text = "Start In";
+            // 
+            // input_startfrom
+            // 
+            this.input_startfrom.Location = new System.Drawing.Point(3, 132);
+            this.input_startfrom.Name = "input_startfrom";
+            this.input_startfrom.Size = new System.Drawing.Size(487, 23);
+            this.input_startfrom.TabIndex = 19;
+            // 
             // button_update
             // 
             this.button_update.Location = new System.Drawing.Point(464, 418);
@@ -217,6 +219,7 @@
             this.button_update.Size = new System.Drawing.Size(105, 23);
             this.button_update.TabIndex = 18;
             this.button_update.Text = "Create";
+            this.button_update.Click += new System.EventHandler(this.button_update_Click);
             // 
             // label_web_desc
             // 
@@ -289,25 +292,24 @@
             this.metroLabel1.TabIndex = 11;
             this.metroLabel1.Text = "Priority";
             // 
-            // metroComboBox1
+            // dropdown_priority
             // 
-            this.metroComboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.metroComboBox1.FormattingEnabled = true;
-            this.metroComboBox1.IntegralHeight = false;
-            this.metroComboBox1.ItemHeight = 23;
-            this.metroComboBox1.Items.AddRange(new object[] {
+            this.dropdown_priority.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.dropdown_priority.FormattingEnabled = true;
+            this.dropdown_priority.IntegralHeight = false;
+            this.dropdown_priority.ItemHeight = 23;
+            this.dropdown_priority.Items.AddRange(new object[] {
             "Low",
             "Below Normal",
             "Normal",
             "Above Normal",
             "High",
             "Realtime"});
-            this.metroComboBox1.Location = new System.Drawing.Point(3, 228);
-            this.metroComboBox1.Name = "metroComboBox1";
-            this.metroComboBox1.Size = new System.Drawing.Size(219, 29);
-            this.metroComboBox1.Style = MetroFramework.MetroColorStyle.Red;
-            this.metroComboBox1.TabIndex = 10;
-            this.metroComboBox1.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.dropdown_priority.Location = new System.Drawing.Point(3, 228);
+            this.dropdown_priority.Name = "dropdown_priority";
+            this.dropdown_priority.Size = new System.Drawing.Size(219, 29);
+            this.dropdown_priority.Style = MetroFramework.MetroColorStyle.Red;
+            this.dropdown_priority.TabIndex = 10;
             // 
             // lbl_name
             // 
@@ -350,13 +352,14 @@
             this.lblStartUp.TabIndex = 4;
             this.lblStartUp.Text = "Target";
             // 
-            // btn_startup
+            // file_browser
             // 
-            this.btn_startup.Location = new System.Drawing.Point(492, 84);
-            this.btn_startup.Name = "btn_startup";
-            this.btn_startup.Size = new System.Drawing.Size(80, 23);
-            this.btn_startup.TabIndex = 3;
-            this.btn_startup.Text = "Browse";
+            this.file_browser.Location = new System.Drawing.Point(492, 84);
+            this.file_browser.Name = "file_browser";
+            this.file_browser.Size = new System.Drawing.Size(80, 23);
+            this.file_browser.TabIndex = 3;
+            this.file_browser.Text = "Browse";
+            this.file_browser.Click += new System.EventHandler(this.btn_filebrowser_Click);
             // 
             // input_process
             // 
@@ -365,6 +368,7 @@
             this.input_process.PromptText = "C:\\Windows\\Calc.exe";
             this.input_process.Size = new System.Drawing.Size(487, 23);
             this.input_process.TabIndex = 2;
+            this.input_process.TextChanged += new System.EventHandler(this.input_process_TextChanged);
             // 
             // SettingsTab
             // 
@@ -383,30 +387,57 @@
             this.style_manager.Style = MetroFramework.MetroColorStyle.Red;
             this.style_manager.Theme = MetroFramework.MetroThemeStyle.Dark;
             // 
-            // metroLabel2
+            // FileDialogue
             // 
-            this.metroLabel2.AutoSize = true;
-            this.metroLabel2.Location = new System.Drawing.Point(-1, 110);
-            this.metroLabel2.Name = "metroLabel2";
-            this.metroLabel2.Size = new System.Drawing.Size(51, 19);
-            this.metroLabel2.TabIndex = 20;
-            this.metroLabel2.Text = "Start In";
+            this.FileDialogue.FileName = "openFileDialog1";
             // 
-            // input_startfrom
+            // ProcName
             // 
-            this.input_startfrom.Location = new System.Drawing.Point(3, 132);
-            this.input_startfrom.Name = "input_startfrom";
-            this.input_startfrom.Size = new System.Drawing.Size(569, 23);
-            this.input_startfrom.TabIndex = 19;
+            this.ProcName.DataPropertyName = "ProcName";
+            this.ProcName.HeaderText = "ProcName";
+            this.ProcName.Name = "ProcName";
+            this.ProcName.ReadOnly = true;
             // 
-            // button_delete
+            // UpTime
             // 
-            this.button_delete.Location = new System.Drawing.Point(353, 418);
-            this.button_delete.Name = "button_delete";
-            this.button_delete.Size = new System.Drawing.Size(105, 23);
-            this.button_delete.Style = MetroFramework.MetroColorStyle.Red;
-            this.button_delete.TabIndex = 21;
-            this.button_delete.Text = "Delete";
+            this.UpTime.DataPropertyName = "UpTime";
+            this.UpTime.HeaderText = "UpTime";
+            this.UpTime.Name = "UpTime";
+            this.UpTime.ReadOnly = true;
+            // 
+            // CPU
+            // 
+            this.CPU.DataPropertyName = "CPUUsage";
+            this.CPU.HeaderText = "CPU";
+            this.CPU.Name = "CPU";
+            this.CPU.ReadOnly = true;
+            // 
+            // RAM
+            // 
+            this.RAM.DataPropertyName = "MemoryUsage";
+            this.RAM.HeaderText = "RAM";
+            this.RAM.Name = "RAM";
+            this.RAM.ReadOnly = true;
+            // 
+            // Start
+            // 
+            this.Start.DataPropertyName = "Start";
+            this.Start.HeaderText = "Start";
+            this.Start.Name = "Start";
+            this.Start.ReadOnly = true;
+            this.Start.Text = "Start";
+            this.Start.UseColumnTextForButtonValue = true;
+            this.Start.Width = 65;
+            // 
+            // Edit
+            // 
+            this.Edit.DataPropertyName = "Edit";
+            this.Edit.HeaderText = "Edit";
+            this.Edit.Name = "Edit";
+            this.Edit.ReadOnly = true;
+            this.Edit.Text = "Edit";
+            this.Edit.UseColumnTextForButtonValue = true;
+            this.Edit.Width = 65;
             // 
             // MainForm
             // 
@@ -438,21 +469,15 @@
         private MetroFramework.Controls.MetroTabPage tab_servers;
         private MetroFramework.Controls.MetroTextBox input_process;
         private MetroFramework.Controls.MetroLabel lblStartUp;
-        private MetroFramework.Controls.MetroButton btn_startup;
+        private MetroFramework.Controls.MetroButton file_browser;
         private MetroFramework.Controls.MetroLabel lblTarget;
         private MetroFramework.Controls.MetroTextBox input_target;
         private MetroFramework.Controls.MetroLabel lbl_name;
         private MetroFramework.Controls.MetroTextBox input_name;
-        private MetroFramework.Controls.MetroComboBox metroComboBox1;
+        private MetroFramework.Controls.MetroComboBox dropdown_priority;
         private MetroFramework.Controls.MetroLabel metroLabel1;
         private System.Windows.Forms.DataGridView datagrid_view;
         protected MetroFramework.Components.MetroStyleManager style_manager;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_uptime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cpu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_memusage;
-        private System.Windows.Forms.DataGridViewButtonColumn col_start;
-        private System.Windows.Forms.DataGridViewButtonColumn col_edit;
         private MetroFramework.Controls.MetroLabel label_web;
         private MetroFramework.Controls.MetroToggle toggle_web;
         private MetroFramework.Controls.MetroToggle toggle_autostart;
@@ -463,6 +488,14 @@
         private MetroFramework.Controls.MetroLabel metroLabel2;
         private MetroFramework.Controls.MetroTextBox input_startfrom;
         private MetroFramework.Controls.MetroButton button_delete;
+        private System.Windows.Forms.OpenFileDialog FileDialogue;
+        private MetroFramework.Controls.MetroButton folder_browser;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProcName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UpTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CPU;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RAM;
+        private System.Windows.Forms.DataGridViewButtonColumn Start;
+        private System.Windows.Forms.DataGridViewButtonColumn Edit;
     }
 }
 

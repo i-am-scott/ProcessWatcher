@@ -1,8 +1,6 @@
 ﻿using Nancy;
 using System.Threading.Tasks;
 using System.Threading;
-using Nancy.Authentication.Stateless;
-using Nancy.Security;
 using ProcessWatcher.Process;
 using Newtonsoft.Json;
 
@@ -12,35 +10,14 @@ namespace ProcessWatcher.APIServer
     {
         public Routing()
         {
-            this.RequiresAuthentication();
-            StatelessAuthentication.Enable(this, new StatelessAuthenticationConfiguration(ValidateKey));
-
             // Views
-            Get["/"] = MainPage;
-            Get["/servers", true] = GetServers;
-            Get["server/{serverid:int}", true] = GetServer;
-            Get["/stats", true] = GetStats;
+            Get("/", MainPage);
+            Get("/servers", GetServers);
+            Get("server/{serverid:int}", GetServer);
+            Get("/stats", GetStats);
 
-            // Stop, Start, Restart and change some settings
-            Post["/server/{id}", true] =  ManageServer;
-            Post["/settings", true] = ManageSettings;
-        }
-
-        private IUserIdentity ValidateKey(NancyContext ctx)
-        {
-            if (!ctx.Request.Query.api.HasValue)
-                return null;
-
-            /*
-             *Generated at run time from a json 
-             *file when the settings page is complete.
-            */
-            return new RegisteredUser()
-            {
-                username = "Temp User",
-                steamid = "STEAM_0:1:26675200",
-                ip = "127.0.0.1"
-            };
+            Post("/server/{id}", ManageServer);
+            Post("/settings", ManageSettings);
         }
 
         private string MainPage(dynamic parameters)

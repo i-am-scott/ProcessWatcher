@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -9,7 +10,7 @@ namespace ProcessWatcher.Process
 {
     public static class ServerFactory
     {
-        public static List<ProcessContainer> servers = new List<ProcessContainer>();
+        public static BindingList<ProcessContainer> servers = new BindingList<ProcessContainer>();
 
         public delegate void ProcessContainerEventHandler(ProcessContainer proc);
         public delegate void ProcessContainerIdEventHandler(int id);
@@ -35,12 +36,29 @@ namespace ProcessWatcher.Process
             proc.CloseProcess();
             proc = null;
 
+            Save();
             OnServerRemoved?.Invoke(id);
+        }
+
+        public static void RemoveByName(string name)
+        {
+            var proc = Get(name);
+            if (proc == null)
+                return;
+
+            proc.CloseProcess();
+            proc = null;
+
+            Save();
         }
 
         public static ProcessContainer Get(int id)
             => servers.Count == 0 ? null :
                 servers.Where(p => p.processid == id).First();
+       
+        public static ProcessContainer Get(string name)
+            => servers.Count == 0 ? null :
+                servers.Where(p => p.ProcName == name).First();
 
         public static void Save()
         {
@@ -69,7 +87,7 @@ namespace ProcessWatcher.Process
                 if (string.IsNullOrEmpty(data))
                     return;
 
-                servers = JsonConvert.DeserializeObject<List<ProcessContainer>>(data);
+                servers = JsonConvert.DeserializeObject<BindingList<ProcessContainer>>(data);
 
                 if (OnServerAdded != null)
                 {

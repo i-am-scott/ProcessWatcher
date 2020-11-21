@@ -1,9 +1,6 @@
-﻿using Nancy;
-using Nancy.Hosting.Self;
-using Nancy.Security;
+﻿using Nancy.Hosting.Self;
 using ProcessWatcher.Classes;
 using System;
-using System.Collections.Generic;
 
 namespace ProcessWatcher.APIServer
 {
@@ -21,29 +18,11 @@ namespace ProcessWatcher.APIServer
                 }
             };
 
-            StaticConfiguration.DisableErrorTraces = false;
-            StaticConfiguration.CaseSensitive = false;
-
-            NancyHost host = new NancyHost(hostconfig, new Uri("http://127.0.0.1:80/"));
+            NancyHost host = new NancyHost(hostconfig, new Uri("http://127.0.0.1/"));
             host.Start();
 
             util.Log("Nancy Self-host started!");
             return host;
         }
     }
-
-    public class RegisteredUser : IUserIdentity
-    {
-        public string username;
-        public string steamid;
-        public string ip;
-        public string apikey;
-
-        public string UserName => username;
-        public IEnumerable<string> Claims => new List<string>() {
-            username,
-            steamid
-        };
-    }
-
 }

@@ -2,31 +2,52 @@
 using ProcessWatcher.Classes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 
 namespace ProcessWatcher.Process
 {
-    public class ProcessContainer
+    public class ProcessContainer : INotifyPropertyChanged
     {
-        public string name;
-        public string path;
+        [DisplayName("Name")]
+        public string _ProcName { get; set; }
+        public string ProcName { get { return _ProcName; } set { _ProcName = value; NotifyPropertyChanged("ProcName"); } }
+        
+        [JsonIgnore]
+        private string _Path { get; set; }
+        public string Path { get { return _Path; } set { _Path = value; NotifyPropertyChanged("Path"); } }
 
         [JsonIgnore]
-        public string target;
+        private string _UpTime = "00:00:00:00";
+        public string UpTime { get { return _UpTime; }  set{_UpTime = value; NotifyPropertyChanged("UpTime");} }
+        
+        [JsonIgnore]
+        private long _MemoryUsage = 0;
+        public long MemoryUsage { get { return _MemoryUsage; } set { _MemoryUsage = value; NotifyPropertyChanged("MemoryUsage"); } }
+        
+        [JsonIgnore]
+        private float _CPUUsage = 0;
+        public float CPUUsage { get { return _CPUUsage; } set { _CPUUsage = value; NotifyPropertyChanged("CPUUsage"); } }
 
         [JsonIgnore]
-        public bool autostart = false;
+        public string Target;
+
+        [JsonIgnore] 
+        public bool AutoStart = false;
 
         [JsonIgnore]
-        public bool staging = false;
+        public bool Staging = false;
 
         [JsonIgnore]
         public int startcounter = 0;
-        public long startdelay = 0;
+        public long StartDelay = 5;
 
         [JsonIgnore]
-        public bool watching = false;
+        public bool Watching = false;
+        
+        [JsonIgnore]
+        public bool IsRunning { get => CurrentProc != null && !CurrentProc.HasExited; protected set { } }
 
         public int processid{
             get
@@ -37,13 +58,6 @@ namespace ProcessWatcher.Process
 
         protected System.Diagnostics.Process CurrentProc;
         protected int LastHearbeat;
-
-        // [JsonIgnore]
-        public long MemoryUsage;
-
-        // [JsonIgnore]
-        public float CPUUsage;
-
         public Dictionary<string, dynamic> options;
 
         public ProcessContainer(string name, string path, Dictionary<string,dynamic> options = null)
@@ -51,19 +65,19 @@ namespace ProcessWatcher.Process
             if (!File.Exists(path))
                 throw new FileNotFoundException(path);
 
-            this.name = name;
-            this.path = path;
+            this.ProcName = name;
+            this.Path = path;
             this.options = options;
 
-            options.TryGetValue("target", out dynamic _target);
-            options.TryGetValue("autostart", out dynamic _autostart);
-            options.TryGetValue("startdelay", out dynamic _startdelay);
+            options.TryGetValue("Target", out dynamic _target);
+            options.TryGetValue("AutoStart", out dynamic _autostart);
+            options.TryGetValue("StartDelay", out dynamic _startdelay);
 
-            target = _target ?? "";
-            autostart = _autostart ?? false;
-            startdelay = _startdelay ?? 0;
+            Target = _target ?? "";
+            AutoStart = _autostart ?? false;
+            StartDelay = _startdelay ?? 0;
 
-            if (autostart)
+            if (AutoStart)
                 CreateProcess();
         }
 
@@ -73,15 +87,15 @@ namespace ProcessWatcher.Process
 
             CurrentProc = System.Diagnostics.Process.Start(new ProcessStartInfo()
             {
-                FileName    = path,
-                Arguments   = target,
+                FileName    = Path,
+                Arguments   = Target,
                 ErrorDialog = false
             });
 
             CurrentProc.Exited += CurrentProc_Exited;
             CurrentProc.ErrorDataReceived += CurrentProc_ErrorDataReceived;
 
-            watching  = true;
+            Watching  = true;
             return CurrentProc;
         }
 
@@ -102,12 +116,13 @@ namespace ProcessWatcher.Process
 
         public void CloseProcess()
         {
-            watching = false;
+            Watching = false;
 
             if (CurrentProc != null)
             {
-                CurrentProc.Dispose();
+                CurrentProc.Kill();
                 CurrentProc.Close();
+                CurrentProc.Dispose();
             }
 
             CurrentProc = null;
@@ -133,8 +148,8 @@ namespace ProcessWatcher.Process
             }
             catch (Exception e)
             {
-                watching = false;
-                staging = false;
+                Watching = false;
+                Staging = false;
                 startcounter = 0;
 
                 util.Log(e.ToString());
@@ -144,14 +159,14 @@ namespace ProcessWatcher.Process
 
         public void PollStatus(bool restart = false)
         {
-            if (!watching)
+            if (!Watching)
                 return;
 
             if (!restart)
             {
                 if(IsUnresponsive())
                 {
-                    watching = false;
+                    Watching = false;
                     CloseProcess();
                 }
                 return;
@@ -159,30 +174,30 @@ namespace ProcessWatcher.Process
 
             if (IsUnresponsive())
             {
-                if(startdelay > 0)
+                if(StartDelay > 0)
                 {
-                    if(staging)
+                    if(Staging)
                     {
                         startcounter++;
-                        if (startcounter >= startdelay)
+                        if (startcounter >= StartDelay)
                         {
                             CreateProcess();
                             startcounter = 0;
-                            staging = false;
+                            Staging = false;
                         }
                     }
                     else
                     {
-                        util.Log($"{name} is not responding!");
-                        util.Log($"{name} is being staged for {startdelay} seconds.");
-                        staging = true;
+                        util.Log($"{ProcName} is not responding!");
+                        util.Log($"{ProcName} is being staged for {StartDelay} seconds.");
+                        Staging = true;
                         startcounter++;
                     }
                 }
                 else
                 {
-                    util.Log($"{name} is not responding!");
-                    util.Log($"{name} is launching!");
+                    util.Log($"{ProcName} is not responding!");
+                    util.Log($"{ProcName} is launching!");
                     CreateProcess();
                 }
             }
@@ -194,21 +209,36 @@ namespace ProcessWatcher.Process
 
         public void PollProcessInfo()
         {
-            if (GetProcess() == null || GetProcess().HasExited)
+            Console.WriteLine("Poll Process Info");
+
+            var proc = GetProcess();
+            if (proc == null || proc.HasExited || proc.ProcessName == null)
                 return;
 
             try
             {
-                PerformanceCounter memcounter = new PerformanceCounter("Process", "Working Set", GetProcess().ProcessName);
-                PerformanceCounter cpucounter = new PerformanceCounter("Process", "% Processor Time", GetProcess().ProcessName);
+                UpTime = CurrentProc.TotalProcessorTime.ToString();
+
+                PerformanceCounter memcounter = new PerformanceCounter("Process", "Working Set", proc.ProcessName);
+                PerformanceCounter cpucounter = new PerformanceCounter("Process", "% Processor Time", proc.ProcessName);
 
                 MemoryUsage = GetProcess().PrivateMemorySize64;
                 CPUUsage = cpucounter.NextValue();
+
+                Console.WriteLine(MemoryUsage);
+                Console.WriteLine(CPUUsage);
             }
             catch (Exception e)
             {
                 util.Log(e.Message);
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(string p)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(p));
         }
     }
 }
