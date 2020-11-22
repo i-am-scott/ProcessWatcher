@@ -34,6 +34,12 @@
             this.metroTabControl1 = new MetroFramework.Controls.MetroTabControl();
             this.tab_servers = new MetroFramework.Controls.MetroTabPage();
             this.datagrid_view = new System.Windows.Forms.DataGridView();
+            this.ProcName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UpTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RAM = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StartStatus = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Edit = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tab_newprocess = new MetroFramework.Controls.MetroTabPage();
             this.folder_browser = new MetroFramework.Controls.MetroButton();
             this.button_delete = new MetroFramework.Controls.MetroButton();
@@ -55,15 +61,8 @@
             this.lblStartUp = new MetroFramework.Controls.MetroLabel();
             this.file_browser = new MetroFramework.Controls.MetroButton();
             this.input_process = new MetroFramework.Controls.MetroTextBox();
-            this.SettingsTab = new MetroFramework.Controls.MetroTabPage();
             this.style_manager = new MetroFramework.Components.MetroStyleManager(this.components);
             this.FileDialogue = new System.Windows.Forms.OpenFileDialog();
-            this.ProcName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UpTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RAM = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StartStatus = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Edit = new System.Windows.Forms.DataGridViewButtonColumn();
             this.metroTabControl1.SuspendLayout();
             this.tab_servers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datagrid_view)).BeginInit();
@@ -75,7 +74,6 @@
             // 
             this.metroTabControl1.Controls.Add(this.tab_servers);
             this.metroTabControl1.Controls.Add(this.tab_newprocess);
-            this.metroTabControl1.Controls.Add(this.SettingsTab);
             this.metroTabControl1.Location = new System.Drawing.Point(23, 63);
             this.metroTabControl1.Name = "metroTabControl1";
             this.metroTabControl1.SelectedIndex = 0;
@@ -149,6 +147,54 @@
             this.datagrid_view.Size = new System.Drawing.Size(572, 444);
             this.datagrid_view.TabIndex = 2;
             this.datagrid_view.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_view_CellContentClick);
+            // 
+            // ProcName
+            // 
+            this.ProcName.DataPropertyName = "ProcName";
+            this.ProcName.HeaderText = "ProcName";
+            this.ProcName.Name = "ProcName";
+            this.ProcName.ReadOnly = true;
+            // 
+            // UpTime
+            // 
+            this.UpTime.DataPropertyName = "UpTime";
+            this.UpTime.HeaderText = "UpTime";
+            this.UpTime.Name = "UpTime";
+            this.UpTime.ReadOnly = true;
+            // 
+            // CPU
+            // 
+            this.CPU.DataPropertyName = "CPUUsage";
+            this.CPU.HeaderText = "CPU";
+            this.CPU.Name = "CPU";
+            this.CPU.ReadOnly = true;
+            // 
+            // RAM
+            // 
+            this.RAM.DataPropertyName = "MemoryUsage";
+            this.RAM.HeaderText = "RAM";
+            this.RAM.Name = "RAM";
+            this.RAM.ReadOnly = true;
+            // 
+            // StartStatus
+            // 
+            this.StartStatus.DataPropertyName = "StartStatus";
+            this.StartStatus.HeaderText = "StartStatus";
+            this.StartStatus.Name = "StartStatus";
+            this.StartStatus.ReadOnly = true;
+            this.StartStatus.Text = "";
+            this.StartStatus.UseColumnTextForButtonValue = true;
+            this.StartStatus.Width = 65;
+            // 
+            // Edit
+            // 
+            this.Edit.DataPropertyName = "Edit";
+            this.Edit.HeaderText = "Edit";
+            this.Edit.Name = "Edit";
+            this.Edit.ReadOnly = true;
+            this.Edit.Text = "Edit";
+            this.Edit.UseColumnTextForButtonValue = true;
+            this.Edit.Width = 65;
             // 
             // tab_newprocess
             // 
@@ -373,17 +419,6 @@
             this.input_process.TabIndex = 2;
             this.input_process.TextChanged += new System.EventHandler(this.input_process_TextChanged);
             // 
-            // SettingsTab
-            // 
-            this.SettingsTab.HorizontalScrollbarBarColor = true;
-            this.SettingsTab.Location = new System.Drawing.Point(4, 35);
-            this.SettingsTab.Name = "SettingsTab";
-            this.SettingsTab.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.SettingsTab.Size = new System.Drawing.Size(572, 444);
-            this.SettingsTab.TabIndex = 1;
-            this.SettingsTab.Text = "Settings";
-            this.SettingsTab.VerticalScrollbarBarColor = true;
-            // 
             // style_manager
             // 
             this.style_manager.Owner = this;
@@ -393,54 +428,6 @@
             // FileDialogue
             // 
             this.FileDialogue.FileName = "openFileDialog1";
-            // 
-            // ProcName
-            // 
-            this.ProcName.DataPropertyName = "ProcName";
-            this.ProcName.HeaderText = "ProcName";
-            this.ProcName.Name = "ProcName";
-            this.ProcName.ReadOnly = true;
-            // 
-            // UpTime
-            // 
-            this.UpTime.DataPropertyName = "UpTime";
-            this.UpTime.HeaderText = "UpTime";
-            this.UpTime.Name = "UpTime";
-            this.UpTime.ReadOnly = true;
-            // 
-            // CPU
-            // 
-            this.CPU.DataPropertyName = "CPUUsage";
-            this.CPU.HeaderText = "CPU";
-            this.CPU.Name = "CPU";
-            this.CPU.ReadOnly = true;
-            // 
-            // RAM
-            // 
-            this.RAM.DataPropertyName = "MemoryUsage";
-            this.RAM.HeaderText = "RAM";
-            this.RAM.Name = "RAM";
-            this.RAM.ReadOnly = true;
-            // 
-            // StartStatus
-            // 
-            this.StartStatus.DataPropertyName = "StartStatus";
-            this.StartStatus.HeaderText = "StartStatus";
-            this.StartStatus.Name = "StartStatus";
-            this.StartStatus.ReadOnly = true;
-            this.StartStatus.Text = "";
-            this.StartStatus.UseColumnTextForButtonValue = true;
-            this.StartStatus.Width = 65;
-            // 
-            // Edit
-            // 
-            this.Edit.DataPropertyName = "Edit";
-            this.Edit.HeaderText = "Edit";
-            this.Edit.Name = "Edit";
-            this.Edit.ReadOnly = true;
-            this.Edit.Text = "Edit";
-            this.Edit.UseColumnTextForButtonValue = true;
-            this.Edit.Width = 65;
             // 
             // MainForm
             // 
@@ -468,7 +455,6 @@
 
         private MetroFramework.Controls.MetroTabControl metroTabControl1;
         private MetroFramework.Controls.MetroTabPage tab_newprocess;
-        private MetroFramework.Controls.MetroTabPage SettingsTab;
         private MetroFramework.Controls.MetroTabPage tab_servers;
         private MetroFramework.Controls.MetroTextBox input_process;
         private MetroFramework.Controls.MetroLabel lblStartUp;
