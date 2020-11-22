@@ -38,7 +38,7 @@ namespace ProcessWatcher
             dropdown_priority.BackColor = style_manager.Theme == MetroFramework.MetroThemeStyle.Dark ? Color.Black : Color.White;
             FormClosed += (object sender, FormClosedEventArgs e) =>
             {
-                Program.OnProcessExit();
+                App.OnProcessExit();
             };
         }
 
@@ -112,7 +112,7 @@ namespace ProcessWatcher
             if (!IsValidFilePath(input_process.Text))
                 return;
 
-            ProcessContainer procContainer = ServerFactory.Create(name, target, startParams, new Dictionary<string, dynamic>() {
+            ServerFactory.Create(name, target, startParams, new Dictionary<string, dynamic>() {
                 {"UseWeb", toggle_web.Checked},
                 {"StartIn", startIn},
                 {"AutoStart", toggle_autostart.Checked}

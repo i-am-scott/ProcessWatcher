@@ -13,24 +13,33 @@
     <div id="app" class="container">
         <br>
         <nav class="navbar navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Process Watcher</a>
+            <a class="navbar-brand" href="#">Process Watcher - @!Model.SteamSession.Name</a>
         </nav>
-        <br>
+
+        <br />
+
+        <div v-cloak v-if="ReponseManaged" class="alert alert-warning">
+            {{ReponseManaged.statusMessage}}
+        </div>
+
         <div v-cloak v-if="ResponseContainer && ResponseContainer.status" class="card-deck">
             <div v-for="(server, index) in ResponseContainer.response.servers" class="card text-white bg-dark mb-3" style="width: 18rem;">
-                <div class="card-header">{{server.procName}} ({{server.execName}})</div>
+                <div class="card-header">
+                    {{server.procName}} ({{server.execName}})
+                </div>
                 <div class="card-body">
                     <canvas class="ct-chart ct-perfect-fourth" :id="'chart-' + index"></canvas>
-                    <p class="card-body text-secondary">
-                        {{server.path}} <b>{{server.pathParams}}</b>
-                    </p>
+                    {{server.path}}
+                    <b class="text-secondary">{{server.pathParams}}</b>
+                    <br />
+
                 </div>
                 <div class="card-footer text-right">
-                    <a href="#" class="btn btn-primary text-right">{{server.isRunning ? "Stop" : "Start"}}</a>
+                    <span v-cloak v-if="server.isRunning" class="badge badge-secondary">Uptime {{server.upTime}}</span>
+                    <a href="#" class="btn text-right" v-bind:class="{'btn-primary' : !server.isRunning, 'btn-danger' : server.isRunning}" v-on:click="RequestToggle(index)">{{server.isRunning ? "Stop" : "Start"}}</a>
                 </div>
             </div>
         </div>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
@@ -44,14 +53,25 @@
             new Vue({
                 el: '#app',
                 data: {
-                    ResponseContainer: false
+                    ResponseContainer: false,
+                    ReponseManaged: false
                 },
                 mounted() {
-                    console.log("Amazing");
                     this.GetServers();
+                    setInterval(this.GetServers, 10000);
                 },
                 methods:
                 {
+                    RequestToggle(index)
+                    {
+                        var _this = this;
+                        fetch("/server/" + index)
+                            .then(response => response.json())
+                            .then(data => {
+                                _this.ReponseManaged = data;
+                                _this.GetServers();
+                            });
+                    },
                     GetServers() {
                         var _this = this;
                         fetch("/servers")
@@ -62,18 +82,18 @@
                             });
                     },
                     DisplayChart(id, server) {
+                        if (server.isRuning) return;
+
                         var history = server.usageHistory;
                         var labels = [];
                         var datasets = [];
 
-                        $.each(history, (_, info) =>
-                        {
+                        $.each(history, (_, info) => {
                             var date = new Date(info.unixTime * 1000);
                             labels.push(date.toLocaleTimeString());
 
                             var c = 0;
-                            $.each(info, (j, val) =>
-                            {
+                            $.each(info, (j, val) => {
                                 if (j == 'unixTime') return;
 
                                 if (!datasets[c]) {
@@ -93,9 +113,8 @@
                         })
 
                         setTimeout(function () {
-                            
                             var ctx = document.getElementById('chart-' + id).getContext('2d');
-                            new Chart(ctx, {
+                            var chart =new Chart(ctx, {
                                 type: 'line',
                                 data: {
                                     labels: labels,
@@ -103,6 +122,8 @@
                                 },
                                 options: {}
                             });
+
+                            console.log(chart);
                         }, 500);
                     }
                 }

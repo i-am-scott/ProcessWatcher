@@ -10,7 +10,7 @@ namespace ProcessWatcher.APIServer
         {
             HostConfiguration hostconfig = new HostConfiguration()
             {
-                RewriteLocalhost = true,
+                RewriteLocalhost = false,
                 AllowAuthorityFallback = true,
                 UrlReservations = new UrlReservations()
                 {
@@ -18,7 +18,12 @@ namespace ProcessWatcher.APIServer
                 }
             };
 
-            NancyHost host = new NancyHost(hostconfig, new Uri("http://127.0.0.1:6969"));
+            Uri[] uriAddresses = new Uri[] {
+                new Uri(App.Cfg.Web.BindAddressHTTP),
+                new Uri(App.Cfg.Web.BindAddressHTTPS)
+            };
+
+            NancyHost host = new NancyHost(new NancyBoostrap(), hostconfig, uriAddresses);
             host.Start();
 
             util.Log("Nancy Self-host started!");

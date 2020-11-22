@@ -17,6 +17,7 @@ namespace ProcessWatcher.Process
 
     public class ProcessContainer : INotifyPropertyChanged
     {
+        [JsonIgnore]
         [DisplayName("Name")]
         public string _ProcName { get; set; }
         public string ProcName { get { return _ProcName; } set { _ProcName = value; NotifyPropertyChanged("ProcName"); } }
@@ -61,6 +62,8 @@ namespace ProcessWatcher.Process
 
         [JsonIgnore]
         public string _StartStatus { get; set; } = "Start";
+
+        [JsonIgnore]
         public string StartStatus { get { return _StartStatus; } set { _StartStatus = value; NotifyPropertyChanged("StartStatus"); } }
 
         public int ProcessId
@@ -140,7 +143,9 @@ namespace ProcessWatcher.Process
 
             if (CurrentProc != null)
             {
-                CurrentProc.Kill();
+                if(!CurrentProc.HasExited)
+                    CurrentProc.Kill();
+
                 CurrentProc.Close();
                 CurrentProc.Dispose();
             }
@@ -232,9 +237,6 @@ namespace ProcessWatcher.Process
             System.Diagnostics.Process proc = GetProcess();
             if (proc == null || proc.HasExited || proc.ProcessName == null)
                 return;
-
-            Console.WriteLine(proc.ProcessName);
-
 
             try
             {

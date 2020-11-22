@@ -6,19 +6,21 @@ using System.Windows.Forms;
 
 namespace ProcessWatcher
 {
-    static class Program
+    static class App
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
+        public static Config Cfg;
+
         [STAThread]
         static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            Cfg = Config.Load();
             StartMonitor();
-            APIServer.Nancy.Start();
+
+            if(Cfg.Web.Enabled)
+                APIServer.Nancy.Start();
 
             Application.Run(new MainForm());
         }
