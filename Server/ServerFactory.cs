@@ -18,9 +18,9 @@ namespace ProcessWatcher.Process
         public static event ProcessContainerEventHandler OnServerAdded;
         public static event ProcessContainerIdEventHandler OnServerRemoved;
 
-        public static ProcessContainer Create(string name, string path, Dictionary<string, dynamic> options = null)
+        public static ProcessContainer Create(string name, string path, string pathParams, Dictionary<string, dynamic> options = null)
         {
-            var proc = new ProcessContainer(name, path, options);
+            var proc = new ProcessContainer(name, path, pathParams, options);
             servers.Add(proc);
 
             OnServerAdded?.Invoke(proc);
@@ -54,7 +54,7 @@ namespace ProcessWatcher.Process
 
         public static ProcessContainer Get(int id)
             => servers.Count == 0 ? null :
-                servers.Where(p => p.processid == id).First();
+                servers.Where(p => p.ProcessId == id).First();
        
         public static ProcessContainer Get(string name)
             => servers.Count == 0 ? null :

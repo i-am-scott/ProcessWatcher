@@ -62,7 +62,7 @@
             this.UpTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RAM = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Start = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.StartStatus = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Edit = new System.Windows.Forms.DataGridViewButtonColumn();
             this.metroTabControl1.SuspendLayout();
             this.tab_servers.SuspendLayout();
@@ -84,8 +84,10 @@
             // 
             // tab_servers
             // 
+            this.tab_servers.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.tab_servers.Controls.Add(this.datagrid_view);
             this.tab_servers.HorizontalScrollbarBarColor = true;
+            this.tab_servers.HorizontalScrollbarSize = 0;
             this.tab_servers.Location = new System.Drawing.Point(4, 35);
             this.tab_servers.Name = "tab_servers";
             this.tab_servers.Size = new System.Drawing.Size(572, 444);
@@ -93,6 +95,7 @@
             this.tab_servers.Text = "Servers";
             this.tab_servers.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.tab_servers.VerticalScrollbarBarColor = true;
+            this.tab_servers.VerticalScrollbarSize = 0;
             // 
             // datagrid_view
             // 
@@ -119,7 +122,7 @@
             this.UpTime,
             this.CPU,
             this.RAM,
-            this.Start,
+            this.StartStatus,
             this.Edit});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
@@ -419,15 +422,15 @@
             this.RAM.Name = "RAM";
             this.RAM.ReadOnly = true;
             // 
-            // Start
+            // StartStatus
             // 
-            this.Start.DataPropertyName = "Start";
-            this.Start.HeaderText = "Start";
-            this.Start.Name = "Start";
-            this.Start.ReadOnly = true;
-            this.Start.Text = "Start";
-            this.Start.UseColumnTextForButtonValue = true;
-            this.Start.Width = 65;
+            this.StartStatus.DataPropertyName = "StartStatus";
+            this.StartStatus.HeaderText = "StartStatus";
+            this.StartStatus.Name = "StartStatus";
+            this.StartStatus.ReadOnly = true;
+            this.StartStatus.Text = "";
+            this.StartStatus.UseColumnTextForButtonValue = true;
+            this.StartStatus.Width = 65;
             // 
             // Edit
             // 
@@ -494,7 +497,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn UpTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn CPU;
         private System.Windows.Forms.DataGridViewTextBoxColumn RAM;
-        private System.Windows.Forms.DataGridViewButtonColumn Start;
+        private System.Windows.Forms.DataGridViewButtonColumn StartStatus;
         private System.Windows.Forms.DataGridViewButtonColumn Edit;
     }
 }

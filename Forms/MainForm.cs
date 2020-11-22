@@ -54,19 +54,18 @@ namespace ProcessWatcher
         {
             if (e.RowIndex < 0) return;
 
-            var procContainer = datagrid_view.Rows[e.RowIndex].DataBoundItem as ProcessContainer;
+            DataGridViewRow gridCol = datagrid_view.Rows[e.RowIndex];
+            var procContainer = gridCol.DataBoundItem as ProcessContainer;
             if (e.ColumnIndex == 4)
             {
                 if (procContainer.IsRunning)
+                {
                     procContainer.CloseProcess();
+                }
                 else
+                {
                     procContainer.CreateProcess();
-                return;
-            }
-
-            if (e.ColumnIndex == 5)
-            {
-                Console.WriteLine("Edit button clicked");
+                }
             }
         }
 
@@ -113,11 +112,10 @@ namespace ProcessWatcher
             if (!IsValidFilePath(input_process.Text))
                 return;
 
-            ServerFactory.Create(name, target, new Dictionary<string, dynamic>() {
-                {"useweb", toggle_web.Checked},
-                {"autostart", toggle_autostart.Checked},
-                {"startin", startIn},
-                {"target", startParams}
+            ProcessContainer procContainer = ServerFactory.Create(name, target, startParams, new Dictionary<string, dynamic>() {
+                {"UseWeb", toggle_web.Checked},
+                {"StartIn", startIn},
+                {"AutoStart", toggle_autostart.Checked}
             });
         }
 

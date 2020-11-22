@@ -91,9 +91,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIServer\Models\ViewModel.cs" />
     <Compile Include="APIServer\Nancy.cs" />
-    <Compile Include="APIServer\Routing.cs" />
+    <Compile Include="APIServer\Routes\MainRoute.cs" />
+    <Compile Include="ProcessExtension.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="SysInfo.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -134,7 +137,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Content\css\style.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="MetroFramework.txt" />
+    <Content Include="Views\View.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

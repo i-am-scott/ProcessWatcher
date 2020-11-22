@@ -8,32 +8,42 @@ using System.IO;
 
 namespace ProcessWatcher.Process
 {
+    public class UsageHistory
+    {
+        public double UnixTime;
+        public double cpu;
+        public double ram;
+    }
+
     public class ProcessContainer : INotifyPropertyChanged
     {
         [DisplayName("Name")]
         public string _ProcName { get; set; }
         public string ProcName { get { return _ProcName; } set { _ProcName = value; NotifyPropertyChanged("ProcName"); } }
-        
+
         [JsonIgnore]
         private string _Path { get; set; }
         public string Path { get { return _Path; } set { _Path = value; NotifyPropertyChanged("Path"); } }
 
         [JsonIgnore]
-        private string _UpTime = "00:00:00:00";
-        public string UpTime { get { return _UpTime; }  set{_UpTime = value; NotifyPropertyChanged("UpTime");} }
-        
+        public string ExecName { get { return System.IO.Path.GetFileName(Path); } set { } }
+
         [JsonIgnore]
-        private long _MemoryUsage = 0;
-        public long MemoryUsage { get { return _MemoryUsage; } set { _MemoryUsage = value; NotifyPropertyChanged("MemoryUsage"); } }
-        
+        private string _UpTime = "00";
+        public string UpTime { get { return _UpTime; } set { _UpTime = value; NotifyPropertyChanged("UpTime"); } }
+
+        [JsonIgnore]
+        private float _MemoryUsage = 0;
+        public float MemoryUsage { get { return _MemoryUsage; } set { _MemoryUsage = value; NotifyPropertyChanged("MemoryUsage"); } }
+
         [JsonIgnore]
         private float _CPUUsage = 0;
         public float CPUUsage { get { return _CPUUsage; } set { _CPUUsage = value; NotifyPropertyChanged("CPUUsage"); } }
 
         [JsonIgnore]
-        public string Target;
+        public List<UsageHistory> UsageHistory = new List<UsageHistory>();
 
-        [JsonIgnore] 
+        public string PathParams;
         public bool AutoStart = false;
 
         [JsonIgnore]
@@ -45,36 +55,41 @@ namespace ProcessWatcher.Process
 
         [JsonIgnore]
         public bool Watching = false;
-        
+
         [JsonIgnore]
         public bool IsRunning { get => CurrentProc != null && !CurrentProc.HasExited; protected set { } }
 
-        public int processid{
+        [JsonIgnore]
+        public string _StartStatus { get; set; } = "Start";
+        public string StartStatus { get { return _StartStatus; } set { _StartStatus = value; NotifyPropertyChanged("StartStatus"); } }
+
+        public int ProcessId
+        {
             get
             {
                 return CurrentProc?.Id ?? 0;
             }
         }
 
-        protected System.Diagnostics.Process CurrentProc;
-        protected int LastHearbeat;
-        public Dictionary<string, dynamic> options;
 
-        public ProcessContainer(string name, string path, Dictionary<string,dynamic> options = null)
+        protected System.Diagnostics.Process CurrentProc;
+        private PerformanceCounter MemCounter;
+        private PerformanceCounter CpuCounter;
+
+        protected int LastHearbeat;
+        public Dictionary<string, dynamic> Options;
+
+        public ProcessContainer(string name, string path, string pathParams, Dictionary<string, dynamic> options = null)
         {
             if (!File.Exists(path))
                 throw new FileNotFoundException(path);
 
-            this.ProcName = name;
-            this.Path = path;
-            this.options = options;
+            ProcName = name;
+            Path = path;
+            PathParams = pathParams;
+            Options = options;
 
-            options.TryGetValue("Target", out dynamic _target);
-            options.TryGetValue("AutoStart", out dynamic _autostart);
             options.TryGetValue("StartDelay", out dynamic _startdelay);
-
-            Target = _target ?? "";
-            AutoStart = _autostart ?? false;
             StartDelay = _startdelay ?? 0;
 
             if (AutoStart)
@@ -87,15 +102,19 @@ namespace ProcessWatcher.Process
 
             CurrentProc = System.Diagnostics.Process.Start(new ProcessStartInfo()
             {
-                FileName    = Path,
-                Arguments   = Target,
+                FileName = Path,
+                Arguments = PathParams,
                 ErrorDialog = false
             });
 
             CurrentProc.Exited += CurrentProc_Exited;
             CurrentProc.ErrorDataReceived += CurrentProc_ErrorDataReceived;
 
-            Watching  = true;
+            MemCounter = new PerformanceCounter("Process", "Working Set", CurrentProc.PerformanceCounterInstanceName(), true);
+            CpuCounter = new PerformanceCounter("Process", "% Processor Time", CurrentProc.PerformanceCounterInstanceName(), true);
+
+            Watching = true;
+            StartStatus = "Stop";
             return CurrentProc;
         }
 
@@ -117,6 +136,7 @@ namespace ProcessWatcher.Process
         public void CloseProcess()
         {
             Watching = false;
+            StartStatus = "Start";
 
             if (CurrentProc != null)
             {
@@ -164,7 +184,7 @@ namespace ProcessWatcher.Process
 
             if (!restart)
             {
-                if(IsUnresponsive())
+                if (IsUnresponsive())
                 {
                     Watching = false;
                     CloseProcess();
@@ -174,9 +194,9 @@ namespace ProcessWatcher.Process
 
             if (IsUnresponsive())
             {
-                if(StartDelay > 0)
+                if (StartDelay > 0)
                 {
-                    if(Staging)
+                    if (Staging)
                     {
                         startcounter++;
                         if (startcounter >= StartDelay)
@@ -209,24 +229,33 @@ namespace ProcessWatcher.Process
 
         public void PollProcessInfo()
         {
-            Console.WriteLine("Poll Process Info");
-
-            var proc = GetProcess();
+            System.Diagnostics.Process proc = GetProcess();
             if (proc == null || proc.HasExited || proc.ProcessName == null)
                 return;
 
+            Console.WriteLine(proc.ProcessName);
+
+
             try
             {
-                UpTime = CurrentProc.TotalProcessorTime.ToString();
+                double SecondsSince = DateTime.UtcNow.Subtract(CurrentProc.StartTime).TotalSeconds;
+                UpTime = SecondsSince.ToString();
 
-                PerformanceCounter memcounter = new PerformanceCounter("Process", "Working Set", proc.ProcessName);
-                PerformanceCounter cpucounter = new PerformanceCounter("Process", "% Processor Time", proc.ProcessName);
+                MemoryUsage = (MemCounter?.NextValue() ?? 0) / 1024 / 1024;
+                CPUUsage = CpuCounter?.NextValue() ?? 0;
 
-                MemoryUsage = GetProcess().PrivateMemorySize64;
-                CPUUsage = cpucounter.NextValue();
+                double seconds = Math.Round((double)DateTimeOffset.UtcNow.ToUnixTimeSeconds(), 0);
+                UsageHistory.Add(new UsageHistory
+                {
+                    UnixTime = seconds,
+                    cpu = CPUUsage,
+                    ram = MemoryUsage
+                });
 
-                Console.WriteLine(MemoryUsage);
-                Console.WriteLine(CPUUsage);
+                if (UsageHistory.Count > 60)
+                {
+                    UsageHistory.RemoveAt(0);
+                }
             }
             catch (Exception e)
             {
@@ -237,8 +266,7 @@ namespace ProcessWatcher.Process
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(string p)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(p));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(p));
         }
     }
 }
