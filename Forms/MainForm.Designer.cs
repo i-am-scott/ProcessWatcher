@@ -146,7 +146,6 @@
             this.datagrid_view.ShowRowErrors = false;
             this.datagrid_view.Size = new System.Drawing.Size(572, 444);
             this.datagrid_view.TabIndex = 2;
-            this.datagrid_view.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_view_CellContentClick);
             // 
             // ProcName
             // 
@@ -179,17 +178,17 @@
             // StartStatus
             // 
             this.StartStatus.DataPropertyName = "StartStatus";
-            this.StartStatus.HeaderText = "StartStatus";
+            this.StartStatus.HeaderText = "";
             this.StartStatus.Name = "StartStatus";
             this.StartStatus.ReadOnly = true;
-            this.StartStatus.Text = "";
+            this.StartStatus.Text = "Start";
             this.StartStatus.UseColumnTextForButtonValue = true;
             this.StartStatus.Width = 65;
             // 
             // Edit
             // 
             this.Edit.DataPropertyName = "Edit";
-            this.Edit.HeaderText = "Edit";
+            this.Edit.HeaderText = "";
             this.Edit.Name = "Edit";
             this.Edit.ReadOnly = true;
             this.Edit.Text = "Edit";

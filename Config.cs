@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
 
 namespace ProcessWatcher
@@ -9,6 +10,7 @@ namespace ProcessWatcher
         public string BindAddressHTTPS;
         public bool DebugMode = false;
         public bool Enabled = true;
+        public List<string> AllowedSteamIDs = new List<string>();
     }
 
     public class SteamConfig

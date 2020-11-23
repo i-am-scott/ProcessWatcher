@@ -16,6 +16,10 @@ OAuthReturn requires the URL to end with /login. The domain should be the same a
     "DebugMode": false,
     "BindAddressHTTP": "http://localhost:80",
     "BindAddressHTTPS": "https://localhost:443",
+    "AllowedSteamIDs": [
+      "STEAM_0:1",
+      "7656119801361612"
+    ]
   },
   "Steam": {
     "API": "",

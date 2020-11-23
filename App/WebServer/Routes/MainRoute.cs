@@ -6,7 +6,6 @@ using ProcessWatcher.Steam;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace ProcessWatcher.APIServer
@@ -83,7 +82,13 @@ namespace ProcessWatcher.APIServer
             SteamUser user = await steam.GetUser();
             if (user != null)
             {
-                Session["steam"] = user;
+                if (App.Cfg.Web.AllowedSteamIDs.Contains(user.SteamID64) || App.Cfg.Web.AllowedSteamIDs.Contains(user.SteamID32))
+                {
+                    Console.WriteLine("Contains Steamid");
+                    Console.WriteLine(user.SteamID64);
+                    Console.WriteLine(user.SteamID32);
+                    Session["steam"] = user;
+                }
             }
 
             return Response.AsRedirect("/");
@@ -104,7 +109,7 @@ namespace ProcessWatcher.APIServer
                 });
 
             var process = ServerFactory.servers[(int)parameters.id];
-            if(process.IsRunning)
+            if (process.IsRunning)
                 process.CloseProcess();
             else
                 process.CreateProcess();
