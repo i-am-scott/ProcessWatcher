@@ -1,5 +1,5 @@
 # ProcessWatcher
-Add executables that will start/stop a process and automatically restart them when they are frozen or crash. Intended as a replacement for ServerDoc.
+Add executables that will start/stop a process and automatically restart them when they are frozen or crash. Intended as a replacement for ServerDoc and for my own specific use-case.
 Has its own web portal for remote monitoring and control using Steam OpenID.
 
 ## Configuration
